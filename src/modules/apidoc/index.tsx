@@ -24,18 +24,18 @@ export const ApiDoc: React.FC = () => {
   );
 
   const updateRequestForEndpoint = (endpoint: ApiEndpoint) => {
-    setRequestBody(JSON.stringify(exampleRequests[endpoint.id] || {}, null, 2));
+    setRequestBody(JSON.stringify(exampleRequests[endpoint.id] ?? {}, null, 2));
   };
 
   const copyToClipboard = (text: string, field: string) => {
-    navigator.clipboard.writeText(text);
+    void navigator.clipboard.writeText(text);
     setCopiedField(field);
     setTimeout(() => setCopiedField(null), 2000);
   };
 
   const handleTestEndpoint = async () => {
     setIsLoading(true);
-    await new Promise((r) => setTimeout(r, 800));
+    await new Promise<void>((r) => setTimeout(r, 800));
     try {
       const data = generateMockResponse(selectedEndpoint.id, requestBody);
       const res: ApiResponse = {
@@ -49,7 +49,7 @@ export const ApiDoc: React.FC = () => {
         }
       };
       setResponse(res);
-    } catch (e) {
+    } catch {
       setResponse({ status: 400, statusText: 'Bad Request', data: { error: 'Invalid request format' } });
     } finally {
       setIsLoading(false);

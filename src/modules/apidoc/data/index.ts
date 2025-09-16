@@ -107,7 +107,7 @@ export const apiEndpoints: ApiEndpoint[] = [
   }
 ];
 
-export const exampleRequests: Record<string, any> = {
+export const exampleRequests: Record<string, Record<string, unknown>> = {
   configure: { merchantId: 'merchant_12345', authMethod: 'api_key' },
   pay: { merchantId: 'merchant_12345', amount: 150.5, currency: 'USDT' },
   cancel: { invoiceId: 'inv_example123' },
@@ -125,8 +125,8 @@ export const exampleRequests: Record<string, any> = {
   }
 };
 
-export const generateMockResponse = (endpointId: string, requestBody: string) => {
-  const mockData: any = {};
+export const generateMockResponse = (endpointId: string, requestBody: string): Record<string, unknown> => {
+  const mockData: Record<string, unknown> = {};
   switch (endpointId) {
     case 'configure':
       mockData.walletId = 'wallet_' + Math.random().toString(36).substr(2, 9);
@@ -135,10 +135,10 @@ export const generateMockResponse = (endpointId: string, requestBody: string) =>
       mockData.createdAt = new Date().toISOString();
       break;
     case 'pay': {
-      const parsed = JSON.parse(requestBody || '{}');
-      const merchantId = parsed.merchantId || 'merchant_12345';
-      const amount = parsed.amount || 100;
-      const currency = parsed.currency || 'USDT';
+      const parsed = JSON.parse(requestBody || '{}') as Record<string, unknown>;
+      const merchantId = (parsed.merchantId as string) ?? 'merchant_12345';
+      const amount = (parsed.amount as number) ?? 100;
+      const currency = (parsed.currency as string) ?? 'USDT';
       
       mockData.invoiceId = 'inv_' + Math.random().toString(36).substr(2, 9);
       mockData.merchantId = merchantId;
@@ -153,8 +153,8 @@ export const generateMockResponse = (endpointId: string, requestBody: string) =>
       break;
     }
     case 'cancel': {
-      const parsed = JSON.parse(requestBody || '{}');
-      const invoiceId = parsed.invoiceId || 'inv_example123';
+      const parsed = JSON.parse(requestBody || '{}') as Record<string, unknown>;
+      const invoiceId = (parsed.invoiceId as string) ?? 'inv_example123';
       
       mockData.invoiceId = invoiceId;
       mockData.status = 'cancelled';
@@ -163,10 +163,10 @@ export const generateMockResponse = (endpointId: string, requestBody: string) =>
       break;
     }
     case 'refund': {
-      const parsed = JSON.parse(requestBody || '{}');
-      const originalInvoiceId = parsed.invoiceId || 'inv_example123';
-      const refundAmount = parsed.amount ?? 95.5;
-      const reason = parsed.reason || 'unspecified';
+      const parsed = JSON.parse(requestBody || '{}') as Record<string, unknown>;
+      const originalInvoiceId = (parsed.invoiceId as string) ?? 'inv_example123';
+      const refundAmount = (parsed.amount as number) ?? 95.5;
+      const reason = (parsed.reason as string) ?? 'unspecified';
       
       mockData.originalInvoiceId = originalInvoiceId;
       mockData.refundInvoiceId = 'refund_' + Math.random().toString(36).substr(2, 9);
@@ -181,8 +181,8 @@ export const generateMockResponse = (endpointId: string, requestBody: string) =>
       break;
     }
     case 'callback': {
-      const parsed = JSON.parse(requestBody || '{}');
-      const event = parsed.event || 'payment_confirmed';
+      const parsed = JSON.parse(requestBody || '{}') as Record<string, unknown>;
+      const event = (parsed.event as string) ?? 'payment_confirmed';
       
       mockData.received = true;
       mockData.message = `Event ${event} processed`;

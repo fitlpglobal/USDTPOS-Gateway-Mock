@@ -49,7 +49,7 @@ export const ResponseView: React.FC<Props> = ({ response, onCopy, copiedField })
               {Object.entries(response.headers).map(([key, value]) => (
                 <div key={key} className="flex justify-between py-1">
                   <span className="text-gray-600">{key}:</span>
-                  <span className="text-gray-900">{value as string}</span>
+                  <span className="text-gray-900">{value}</span>
                 </div>
               ))}
             </div>

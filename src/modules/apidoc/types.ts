@@ -4,14 +4,14 @@ export interface ApiEndpoint {
   method: string;
   path: string;
   description: string;
-  requestSchema: any;
-  responseSchema: any;
+  requestSchema: Record<string, string>;
+  responseSchema: Record<string, string>;
   color: string; // UI hue tag
 }
 
 export interface ApiResponse {
   status: number;
   statusText: string;
-  data: any;
+  data: Record<string, unknown>;
   headers?: Record<string, string>;
 }
