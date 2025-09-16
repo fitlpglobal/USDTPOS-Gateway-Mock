@@ -7,8 +7,9 @@ import { EndpointDetails } from './components/EndpointDetails';
 import { ResponseView } from './components/ResponseView';
 
 export const ApiDoc: React.FC = () => {
-  const [selectedEndpoint, setSelectedEndpoint] = useState<ApiEndpoint>(apiEndpoints[0]);
-  const [requestBody, setRequestBody] = useState<string>(JSON.stringify(exampleRequests[apiEndpoints[0].id], null, 2));
+  const defaultEndpoint = apiEndpoints[0]!; // We know this exists since we define the array
+  const [selectedEndpoint, setSelectedEndpoint] = useState<ApiEndpoint>(defaultEndpoint);
+  const [requestBody, setRequestBody] = useState<string>(JSON.stringify(exampleRequests[defaultEndpoint.id], null, 2));
   const [response, setResponse] = useState<ApiResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
